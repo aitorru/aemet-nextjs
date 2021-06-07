@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 import {
   Flex,
   Text,
@@ -21,19 +21,27 @@ import {
   Line,
   Bar
 } from 'react-chartjs-2';
-import InconoTiempo from '../components/IconoTiempo';
-import Nube from '../public/weather/001-cloud.svg'
-import Termometro from '../public/weather/043-warm.svg'
-import Paragüas from '../public/weather/048-umbrella.svg'
-import Gota from '../public/weather/028-drop.svg'
+import InconoTiempo from '../../components/IconoTiempo';
+import Nube from '../../public/weather/001-cloud.svg'
+import Termometro from '../../public/weather/043-warm.svg'
+import Paragüas from '../../public/weather/048-umbrella.svg'
+import Gota from '../../public/weather/028-drop.svg'
 import { useState } from 'react'
+import municipios from '../../public/municipios/aemetdata.json'
+import axios from 'axios'
+var _ = require('lodash');
 
-export default function Home() {
+export default function Home({ municipio }) {
+
+  const fetcher = (url, token) =>
+    axios
+      .get(url, { headers: { municipio: token } })
+      .then((res) => res.data);
 
   const [tormenta, setTormenta] = useState(false);
 
   function maxmin() {
-    const { data, error } = useSWR('api/maxmin');
+    const { data, error } = useSWR(['/api/maxmin', municipio.id], fetcher);
     console.log(data);
     return {
       plot_data: data,
@@ -45,7 +53,7 @@ export default function Home() {
   const { plot_data, plot_loading, plot_error } = maxmin();
 
   function current() {
-    const { data, error } = useSWR('api/current');
+    const { data, error } = useSWR(['/api/current', municipio.id], fetcher);
     console.log(data);
     return {
       current_data: data,
@@ -83,7 +91,7 @@ export default function Home() {
       );
     } else if (current_error) {
       return (
-        <Box className={styles.plot} w="90vw" h="20rem">
+        <Box display="inline" className={styles.plot} w="100%" h="20rem">
           <Alert
             status="error"
             variant="subtle"
@@ -275,11 +283,11 @@ export default function Home() {
 
   return (<>
     <Head>
-      <title>Tiempo en Bilbao - AEMET clean clone</title>
+      <title>Tiempo en {_.capitalize(municipio.name)} - AEMET clean clone</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" /></Head>
     <Flex h="100%" className={styles.flex_apply} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
       {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado.</Alert><Divider /></> : null}
-      <Text textAlign="center" color="black" fontSize="6xl">Datos de Bilbao - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Text>
+      <Text textAlign="center" color="black" fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Text>
       <Divider />
       <SUMMARY />
       <Divider />
@@ -296,4 +304,30 @@ export default function Home() {
     </Flex>
   </>
   )
+}
+
+
+export async function getStaticProps({ params }) {
+  for (var i in municipios) {
+    if (municipios[i]['id'] == params.id) {
+      var municipio = municipios[i];
+      return {
+        props: {
+          municipio
+        },
+      }
+    }
+  }
+
+}
+
+export async function getStaticPaths() {
+  var paths = [];
+  for (var i in municipios) {
+    paths.push({
+      params: { id: municipios[i]['id'] }
+    }
+    )
+  }
+  return { paths, fallback: 'blocking' }
 }

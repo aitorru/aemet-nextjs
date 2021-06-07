@@ -23,7 +23,7 @@ var options = {
 };
 
 export default async function handler(req, res) {
-    await axios.get('http://www.aemet.es/xml/municipios_h/localidad_h_48020.xml').then(function (response) {
+    await axios.get(`http://www.aemet.es/xml/municipios_h/localidad_h_${req.headers.municipio}.xml`).then(function (response) {
         const jsonObj = parser.parse(response.data, options);
         // Prepare date format
         const year = new Date().getFullYear().toString();

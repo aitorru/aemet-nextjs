@@ -23,7 +23,7 @@ var options = {
 };
 
 export default async function handler(req, res) {
-    await axios.get('http://www.aemet.es/xml/municipios/localidad_48020.xml').then(function (response) {
+    await axios.get(`http://www.aemet.es/xml/municipios/localidad_${req.headers.municipio}.xml`).then(function (response) {
         const jsonObj = parser.parse(response.data, options);
 
         var tmax = [];

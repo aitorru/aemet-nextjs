@@ -20,6 +20,7 @@
     "fast-xml-parser": "^3.19.0",
     "framer-motion": "^4",
     "he": "^1.2.0",
+    "lodash": "^4.17.21",
     "next": "10.2.3",
     "node-fetch": "^2.6.1",
     "react": "17.0.2",
