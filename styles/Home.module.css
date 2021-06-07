@@ -1,0 +1,21 @@
+.flex_apply {
+  background-color: var(--chakra-colors-gray-100);
+}
+
+.grid_lines {
+  stroke: var(--chakra-colors-white);
+}
+.plot {
+  min-width: 40vw;
+  max-width: 70vw;
+  max-height: 80vh;
+}
+
+.icono {
+  height: 100%;
+  width: 100%;
+}
+.icono_text {
+  height: 2rem;
+  width: 2rem;
+}

@@ -1,0 +1,43 @@
+{
+  "name": "aemet-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^1.0.13",
+    "@chakra-ui/react": "^1.6.3",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@svgr/webpack": "^5.5.0",
+    "axios": "^0.21.1",
+    "chart.js": "^3.3.2",
+    "fast-xml-parser": "^3.19.0",
+    "framer-motion": "^4",
+    "he": "^1.2.0",
+    "next": "10.2.3",
+    "node-fetch": "^2.6.1",
+    "react": "17.0.2",
+    "react-chartjs-2": "^3.0.3",
+    "react-charts": "^2.0.0-beta.7",
+    "react-dom": "17.0.2",
+    "react-resizable": "^3.0.1",
+    "react-vis": "^1.11.7",
+    "request": "^2.88.2",
+    "swr": "^0.5.6",
+    "zustand": "^3.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
+    "babel-loader": "^8.2.2"
+  }
+}
