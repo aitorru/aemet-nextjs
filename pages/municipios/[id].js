@@ -42,7 +42,6 @@ export default function Home({ municipio }) {
 
   function maxmin() {
     const { data, error } = useSWR(['/api/maxmin', municipio.id], fetcher);
-    console.log(data);
     return {
       plot_data: data,
       plot_loading: !error && !data,
@@ -54,7 +53,6 @@ export default function Home({ municipio }) {
 
   function current() {
     const { data, error } = useSWR(['/api/current', municipio.id], fetcher);
-    console.log(data);
     return {
       current_data: data,
       current_loading: !error && !data,

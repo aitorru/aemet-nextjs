@@ -39,12 +39,12 @@ export default function Header() {
         <nav className={styles.navbar}>
             <Flex minH="8vh" className={styles.flex_apply} flexDirection="row" justifyContent="space-between" alignItems="center" alignContent="center" padding="0px 16px" >
                 <Menu>
-                    <Link href="/" passHref><Text fontSize="2xl" textAlign="center" as={Button} className={styles.nav_title}>Aemet clean clone</Text></Link>
+                    <Link href="/" passHref><Text margin="1" paddingLeft="26" paddingRight="26" fontSize={{ base: "xs", md: "md", lg: "xl" }} textAlign="center" as={Button} variant="link" className={styles.nav_title}>Aemet clean clone</Text></Link>
                     <InputGroup justifyContent="center">
                         <Input className={styles.nav_search} value={value} onKeyPress={(e) => { handleKeyPress(e) }} onChange={handleChange} placeholder="Busca un municipio" colorScheme="facebook" />
                         <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); var url = _.find(municipios, (o) => { return (_.lowerCase(o.name) == _.lowerCase(value)) }).id; router.push(`/municipios/${url}`) }} />
                     </InputGroup>
-                    <MenuButton className={styles.nav_button} as={Button} onClick={() => { changeDarkMode(!darkMode) }}>
+                    <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { changeDarkMode(!darkMode) }}>
                         {darkMode ? <MoonIcon /> : <SunIcon />}
                     </MenuButton>
                 </Menu>
