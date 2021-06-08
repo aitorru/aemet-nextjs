@@ -14,6 +14,9 @@
 }
 .nav_title {
   color: var(--custom-dark-blue);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
 }
 .nav_search {
   max-width: 50vw;
