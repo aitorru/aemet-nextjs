@@ -285,13 +285,16 @@ export default function Home({ municipio }) {
     <Head>
       <title>Tiempo en {_.capitalize(municipio.name)} - AEMET clean clone</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:title" content={`Tiempo en ${_.capitalize(municipio.name)} - AEMET clean clone`} />
+      <meta property="og:title" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://aemet-nextjs.vercel.app/" />
-      <meta property="og:image" content="https://aemet-nextjs.vercel.app/public/001-cloud.svg" />
+      <meta property="og:image" content="https://aemet-nextjs.vercel.app/sun.svg" />
       <meta property="og:description" content="Clon de AEMET con mayor limpieza" />
       <meta name="theme-color" content="#162b47" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="locality" content={`${_.capitalize(municipio.name)}, España`} />
+      <meta name="og:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
+      <meta name="twitter:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
     </Head>
     <Flex h="100%" className={styles.flex_apply} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
       {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></> : null}
