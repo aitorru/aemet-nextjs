@@ -8,6 +8,7 @@ import {
     Input,
     InputGroup,
     InputRightAddon,
+    useToast,
 } from "@chakra-ui/react"
 import {
     SearchIcon,
@@ -26,12 +27,25 @@ export default function Header() {
     const [darkMode, changeDarkMode] = useState(false);
     const router = useRouter();
     const [value, setValue] = useState("");
-    const handleChange = (event) => setValue(event.target.value)
+    const handleChange = (event) => setValue(event.target.value);
+    const toast = useToast();
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            var url = _.find(municipios, (o) => { return (_.lowerCase(o.name) == _.lowerCase(value)) }).id;
+            handleMunicipioSearch();
+        }
+    }
+
+    const handleMunicipioSearch = () => {
+        var url = _.find(municipios,
+            (o) => {
+                return (_.lowerCase(o.name) == _.lowerCase(value) || _.lowerCase(o.name.split(' ')[_.findIndex(o.name.split(' '), (d) => { _.lowerCase(d) == _.lowerCase(value) })]) == _.lowerCase(value))
+            }
+        )?.id;
+        if (!(url == null)) {
             router.push(`/municipios/${url}`);
+        } else {
+            toast({ title: "No se ha encontrado el municipio.", status: "error", duration: 9000, isClosable: true, });
         }
     }
 
@@ -42,7 +56,7 @@ export default function Header() {
                     <Link href="/" passHref><Text margin="1" paddingLeft="26" paddingRight="26" fontSize={{ base: "xs", md: "md", lg: "xl" }} textAlign="center" as={Button} variant="link" className={styles.nav_title}>Aemet clean clone</Text></Link>
                     <InputGroup justifyContent="center">
                         <Input className={styles.nav_search} value={value} onKeyPress={(e) => { handleKeyPress(e) }} onChange={handleChange} placeholder="Busca un municipio" colorScheme="facebook" />
-                        <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); var url = _.find(municipios, (o) => { return (_.lowerCase(o.name) == _.lowerCase(value)) }).id; router.push(`/municipios/${url}`) }} />
+                        <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); handleMunicipioSearch() }} />
                     </InputGroup>
                     <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { changeDarkMode(!darkMode) }}>
                         {darkMode ? <MoonIcon /> : <SunIcon />}

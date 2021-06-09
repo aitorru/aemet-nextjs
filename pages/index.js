@@ -29,7 +29,15 @@ export default function Home() {
   return (<>
     <Head>
       <title>AEMET clean clone</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" /></Head>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta property="og:title" content="AEMET clean clone" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://aemet-nextjs.vercel.app/" />
+      <meta property="og:image" content="https://aemet-nextjs.vercel.app/public/001-cloud.svg" />
+      <meta property="og:description" content="Clon de AEMET con mayor limpieza" />
+      <meta name="theme-color" content="#162b47" />
+      <meta name="twitter:card" content="summary_large_image" />
+    </Head>
     <Flex h={{ base: "80vh", md: "92vh", lg: "92vh" }} maxH={{ base: "80vh", md: "92vh", lg: "92vh" }} className={styles.flex_apply} flexDirection="column" justifyContent="space-between" alignContent="center" alignItems="center">
       <Text textAlign="center" color="black" fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}>Para comenzar busca un municipio en la barra de arriba.</Text>
       <Flex maxH="20rem" h="20rem" maxW="90vw" w="90vw" justifyContent="center" alignContent="center" alignItems="center">

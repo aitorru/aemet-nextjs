@@ -9171,6 +9171,11 @@ react-colorful@^5.0.1:
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.2.2.tgz#0a69d0648db47e51359d343854d83d250a742243"
   integrity sha512-Xdb1Rl6lZ5SMdNBH59eE0lGqR1g2LVD8IgPlw0WeMDrOC65lYI8fgMEwj/0dDpVRVMh5qp73ciISDst/t2O2iQ==
 
+react-custom-scroll@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-custom-scroll/-/react-custom-scroll-4.3.0.tgz#8473ee2c78c5c48fb174941961f65345179a888f"
+  integrity sha512-JHNWBAzyw3MgsCNcG6uXJQkCoVPmWxeEW01ABmUz4HsWxw3EQJ2GzrUa5y4ISI85V3q6O4zwCIZAVn10aM3clQ==
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"

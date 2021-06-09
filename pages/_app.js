@@ -6,6 +6,7 @@ import {
 import { SWRConfig } from 'swr'
 import NextNprogress from 'nextjs-progressbar';
 
+
 function MyApp({ Component, pageProps }) {
 
   return (

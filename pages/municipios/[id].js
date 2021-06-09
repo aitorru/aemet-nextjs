@@ -39,6 +39,7 @@ export default function Home({ municipio }) {
       .then((res) => res.data);
 
   const [tormenta, setTormenta] = useState(false);
+  const [prb_tormenta, setPrb_tormenta] = useState(0);
 
   function maxmin() {
     const { data, error } = useSWR(['/api/maxmin', municipio.id], fetcher);
@@ -113,6 +114,7 @@ export default function Home({ municipio }) {
     } else {
       if (current_data['prob_tormenta']['#text'] > 0) {
         setTormenta(true);
+        setPrb_tormenta(current_data['prob_tormenta']['#text']);
       }
       return (
         <Box display="inline" w="90vw" h="20rem">
@@ -282,9 +284,17 @@ export default function Home({ municipio }) {
   return (<>
     <Head>
       <title>Tiempo en {_.capitalize(municipio.name)} - AEMET clean clone</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" /></Head>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta property="og:title" content={`Tiempo en ${_.capitalize(municipio.name)} - AEMET clean clone`} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://aemet-nextjs.vercel.app/" />
+      <meta property="og:image" content="https://aemet-nextjs.vercel.app/public/001-cloud.svg" />
+      <meta property="og:description" content="Clon de AEMET con mayor limpieza" />
+      <meta name="theme-color" content="#162b47" />
+      <meta name="twitter:card" content="summary_large_image" />
+    </Head>
     <Flex h="100%" className={styles.flex_apply} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
-      {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado.</Alert><Divider /></> : null}
+      {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></> : null}
       <Text textAlign="center" color="black" fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Text>
       <Divider />
       <SUMMARY />
