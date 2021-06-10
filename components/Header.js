@@ -19,16 +19,18 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 import municipios from '../public/municipios/aemetdata.json'
+import { useAppContext } from '../contexts/AppContext';
 var _ = require('lodash');
 
 
 export default function Header() {
 
-    const [darkMode, changeDarkMode] = useState(false);
+    const { variableState, setVariableState } = useAppContext();
     const router = useRouter();
     const [value, setValue] = useState("");
     const handleChange = (event) => setValue(event.target.value);
     const toast = useToast();
+
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -58,8 +60,8 @@ export default function Header() {
                         <Input className={styles.nav_search} value={value} onKeyPress={(e) => { handleKeyPress(e) }} onChange={handleChange} placeholder="Busca un municipio" colorScheme="facebook" />
                         <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); handleMunicipioSearch() }} />
                     </InputGroup>
-                    <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { changeDarkMode(!darkMode) }}>
-                        {darkMode ? <MoonIcon /> : <SunIcon />}
+                    <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { setVariableState(!variableState) }}>
+                        {variableState ? <MoonIcon /> : <SunIcon />}
                     </MenuButton>
                 </Menu>
             </Flex>

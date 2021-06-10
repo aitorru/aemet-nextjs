@@ -11,7 +11,13 @@ import {
   Box,
   Grid,
   GridItem,
-  Divider
+  Divider,
+  useToast,
+  Heading,
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade
 } from "@chakra-ui/react"
 import {
 } from '@chakra-ui/icons'
@@ -28,15 +34,29 @@ import Paragüas from '../../public/weather/048-umbrella.svg'
 import Gota from '../../public/weather/028-drop.svg'
 import { useState } from 'react'
 import municipios from '../../public/municipios/aemetdata.json'
+import { useAppContext } from '../../contexts/AppContext';
 import axios from 'axios'
 var _ = require('lodash');
 
 export default function Home({ municipio }) {
+  const toast_actualizado = useToast();
 
+  const { variableState, setVariableState } = useAppContext();
+
+  const fetcher_toast = (url, token) =>
+    axios
+      .get(url, { headers: { municipio: token } })
+      .then((res) => res.data)
+      .finally(() => toast_actualizado({
+        title: "Se han actualizado los datos",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      }))
   const fetcher = (url, token) =>
     axios
       .get(url, { headers: { municipio: token } })
-      .then((res) => res.data);
+      .then((res) => res.data)
 
   const [tormenta, setTormenta] = useState(false);
   const [prb_tormenta, setPrb_tormenta] = useState(0);
@@ -53,7 +73,7 @@ export default function Home({ municipio }) {
   const { plot_data, plot_loading, plot_error } = maxmin();
 
   function current() {
-    const { data, error } = useSWR(['/api/current', municipio.id], fetcher);
+    const { data, error } = useSWR(['/api/current', municipio.id], fetcher_toast);
     return {
       current_data: data,
       current_loading: !error && !data,
@@ -296,21 +316,21 @@ export default function Home({ municipio }) {
       <meta name="og:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
       <meta name="twitter:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
     </Head>
-    <Flex h="100%" className={styles.flex_apply} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
-      {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></> : null}
-      <Text textAlign="center" color="black" fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Text>
+    <Flex h="100%" className={styles.flex_apply} backgroundColor={variableState ? "#1A202C" : "F7FAFC"} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
+      {tormenta ? <Collapse in={isOpen} animateOpacity><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></Collapse> : null}
+      <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Heading>
       <Divider />
       <SUMMARY />
       <Divider />
-      <Text textAlign="center" color="black" fontSize="4xl">Predicciones del dia</Text>
-      <Text textAlign="center" color="black" fontSize="2xl">Temperatura del dia</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones del dia</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Temperatura del dia</Text>
       <PLOT_TEMP_DAY />
       <Divider />
-      <Text textAlign="center" color="black" fontSize="2xl">Precipitaciones del dia</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Precipitaciones del dia</Text>
       <PLOT_PREP_DAY />
       <Divider />
-      <Text textAlign="center" color="black" fontSize="4xl">Predicciones de 7 dias</Text>
-      <Text textAlign="center" color="black" fontSize="2xl">Maxmimas y minimas</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones de 7 dias</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Maxmimas y minimas</Text>
       <PLOT_MAX_MIN />
     </Flex>
   </>
