@@ -26,18 +26,22 @@ export default async function handler(req, res) {
     await axios.get(`http://www.aemet.es/xml/municipios/localidad_${req.headers.municipio}.xml`).then(function (response) {
         const jsonObj = parser.parse(response.data, options);
 
+        const today = jsonObj['root']['prediccion']['dia'];
+
         var tmax = [];
         var tmin = [];
 
-        for (var i in jsonObj['root']['prediccion']['dia']) {
-            tmax.push(jsonObj['root']['prediccion']['dia'][i]['temperatura']['maxima']);
-            tmin.push(jsonObj['root']['prediccion']['dia'][i]['temperatura']['minima']);
+        for (var i in today) {
+            tmax.push(today[i]['temperatura']['maxima']);
+            tmin.push(today[i]['temperatura']['minima']);
         }
 
 
 
         var d = new Date();
-        res.status(200).json({
+
+
+        const maxmin = {
             labels: ['Dia: ' + (d.getDate()), 'Dia: ' + (d.getDate() + 1), 'Dia: ' + (d.getDate() + 3), 'Dia: ' + (d.getDate() + 4), 'Dia: ' + (d.getDate() + 5), 'Dia: ' + (d.getDate() + 6)],
             datasets: [
                 {
@@ -55,6 +59,9 @@ export default async function handler(req, res) {
                     borderColor: 'rgba(131, 129, 209, 0.2)',
                 }
             ],
+        }
+        res.status(200).json({
+            maxmin: maxmin,
         })
     })
 }

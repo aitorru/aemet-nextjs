@@ -118,15 +118,15 @@ export default function Home({ municipio }) {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            w="80vw"
-            h="50vh"
+            w="100%"
+            h="20rem"
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
               No se pudo obtener los datos de AEMET
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.
             </AlertDescription>
           </Alert>
         </Box>
@@ -178,7 +178,7 @@ export default function Home({ municipio }) {
 
     if (plot_loading) {
       return (
-        <Stack paddingTop="50px">
+        <Stack paddingTop="50px" maxH="20rem" h="20rem" maxW="90vw" w="90vw">
           <Skeleton height="20px" />
           <Skeleton height="20px" />
           <Skeleton height="20px" />
@@ -210,7 +210,48 @@ export default function Home({ municipio }) {
     } else {
       return (
         <Box className={styles.plot} maxH="20rem" h="20rem" maxW="90vw" w="90vw">
-          <Line width={200} height={50} data={plot_data} options={options} />
+          <Line width={200} height={50} data={plot_data['maxmin']} options={options} />
+        </Box>
+      );
+    }
+  }
+  const PLOT_MAX_MIN_PREP = () => {
+
+    if (plot_loading) {
+      return (
+        <Stack paddingTop="50px" maxH="20rem" h="20rem" maxW="90vw" w="90vw">
+          <Skeleton height="20px" />
+          <Skeleton height="20px" />
+          <Skeleton height="20px" />
+        </Stack>
+      )
+    } else if (plot_error) {
+      return (
+        <Box className={styles.plot} maxH="20rem" h="20rem" maxW="90vw" w="90vw">
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+          >
+            <AlertIcon boxSize="40px" mr={0} />
+            <AlertTitle mt={4} mb={1} fontSize="lg">
+              No se pudo obtener los datos de AEMET
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+            </AlertDescription>
+          </Alert>
+        </Box>
+
+
+      )
+    } else {
+      return (
+        <Box className={styles.plot} maxH="20rem" h="20rem" maxW="90vw" w="90vw">
+          <Line width={200} height={50} data={plot_data['prep']} options={options} />
         </Box>
       );
     }
@@ -220,7 +261,7 @@ export default function Home({ municipio }) {
 
     if (current_loading) {
       return (
-        <Stack paddingTop="50px">
+        <Stack paddingTop="50px" maxH="20rem" h="20rem" maxW="90vw" w="90vw">
           <Skeleton height="20px" />
           <Skeleton height="20px" />
           <Skeleton height="20px" />
@@ -258,11 +299,12 @@ export default function Home({ municipio }) {
     }
   }
 
+
   const PLOT_PREP_DAY = () => {
 
     if (current_loading) {
       return (
-        <Stack paddingTop="50px">
+        <Stack paddingTop="50px" maxH="20rem" h="20rem" maxW="90vw" w="90vw">
           <Skeleton height="20px" />
           <Skeleton height="20px" />
           <Skeleton height="20px" />
