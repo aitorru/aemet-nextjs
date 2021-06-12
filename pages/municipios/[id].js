@@ -359,7 +359,7 @@ export default function Home({ municipio }) {
       <meta name="twitter:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
     </Head>
     <Flex h="100%" className={styles.flex_apply} backgroundColor={variableState ? "#1A202C" : "F7FAFC"} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
-      {tormenta ? <Collapse in={isOpen} animateOpacity><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></Collapse> : null}
+      {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></> : null}
       <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Heading>
       <Divider />
       <SUMMARY />
