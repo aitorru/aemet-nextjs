@@ -1,11 +1,11 @@
-import styles from '../styles/Home.module.css'
 import {
   Flex,
   Text,
   Link,
   Kbd,
   Stack,
-  Heading
+  Heading,
+  useMediaQuery
 } from "@chakra-ui/react"
 import {
   ExternalLinkIcon,
@@ -21,7 +21,7 @@ export default function Home() {
 
   const [municipio_rand, setMunicipio_rand] = useState(municipios[_.random(0, municipios.length)].name);
 
-  const { variableState, setVariableState } = useAppContext();
+  const { variableState } = useAppContext();
 
   useEffect(() => {
     const interval = setInterval(() => {

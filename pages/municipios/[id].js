@@ -96,6 +96,25 @@ export default function Home({ municipio }) {
     },
   };
 
+  const AVISO_TORMENTA = () => {
+    if (current_loading) {
+      return null;
+    } else if (current_error) {
+      return null;
+    } else {
+      if (current_data['prob_tormenta']['#text'] > 0) {
+        return (<>
+          <Alert status="warning">
+            <AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert>
+          <Divider />
+        </>
+        )
+      } else {
+        return null;
+      }
+    }
+  }
+
   const SUMMARY = () => {
     if (current_loading) {
       return (
@@ -132,10 +151,7 @@ export default function Home({ municipio }) {
         </Box>
       )
     } else {
-      if (current_data['prob_tormenta']['#text'] > 0) {
-        setTormenta(true);
-        setPrb_tormenta(current_data['prob_tormenta']['#text']);
-      }
+
       return (
         <Box display="inline" w="90vw" h="20rem">
           <Grid
@@ -148,22 +164,22 @@ export default function Home({ municipio }) {
             <GridItem rowSpan={3} colSpan={1} ><InconoTiempo id={current_data['cielo']['#text']} className={styles.icono} /></GridItem>
             <GridItem colSpan={2} bg="#FED7D7">
               <Flex flexDirection="row" justifyContent="space-around" alignItems="center" alignContent="center" h="100%" w="100%">
-                <Nube className={styles.icono_text} /><Text fontSize="xl">{current_data['cielo']['attr']['@_descripcion']}</Text>
+                <Nube className={styles.icono_text} /><Text textAlign="center" fontSize="xl">{current_data['cielo']['attr']['@_descripcion']}</Text>
               </Flex>
             </ GridItem>
             <GridItem colSpan={1} bg="#FED7D7">
               <Flex flexDirection="row" justifyContent="space-around" alignItems="center" alignContent="center" h="100%" w="100%">
-                <Termometro className={styles.icono_text} /><Text fontSize="xl">{current_data['temperatura']['#text']} ºC</Text>
+                <Termometro className={styles.icono_text} /><Text textAlign="center" fontSize="xl">{current_data['temperatura']['#text']} ºC</Text>
               </Flex>
             </ GridItem>
             <GridItem colSpan={1} bg="#FED7D7">
               <Flex flexDirection="row" justifyContent="space-around" alignItems="center" alignContent="center" h="100%" w="100%">
-                <Paragüas className={styles.icono_text} /><Text fontSize="xl">{current_data['prob_precipitacion']['#text']}%</Text>
+                <Paragüas className={styles.icono_text} /><Text textAlign="center" fontSize="xl">{current_data['prob_precipitacion']['#text']}%</Text>
               </Flex>
             </GridItem>
             <GridItem colSpan={2} bg="#FED7D7">
               <Flex flexDirection="row" justifyContent="space-around" alignItems="center" alignContent="center" h="100%" w="100%">
-                <Gota className={styles.icono_text} /><Text fontSize="xl">{current_data['precipitacion']['#text']}ml</Text>
+                <Gota className={styles.icono_text} /><Text textAlign="center" fontSize="xl">{current_data['precipitacion']['#text']}ml</Text>
               </Flex>
             </GridItem>
           </Grid>
@@ -359,7 +375,7 @@ export default function Home({ municipio }) {
       <meta name="twitter:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
     </Head>
     <Flex h="100%" className={styles.flex_apply} backgroundColor={variableState ? "#1A202C" : "F7FAFC"} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
-      {tormenta ? <><Alert status="warning"><AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert><Divider /></> : null}
+      <AVISO_TORMENTA />
       <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Heading>
       <Divider />
       <SUMMARY />
