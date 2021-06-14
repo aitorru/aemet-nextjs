@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
       <AppContextProvider>
         <ChakraProvider>
           <SWRConfig value={{
-            refreshInterval: 60000,
+            refreshInterval: 600000,
             fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
           }}>
             <NextNprogress

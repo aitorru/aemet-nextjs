@@ -62,7 +62,7 @@ export default function Home({ municipio }) {
   const [prb_tormenta, setPrb_tormenta] = useState(0);
 
   function maxmin() {
-    const { data, error } = useSWR(['/api/maxmin', municipio.id], fetcher);
+    const { data, error } = useSWR(['/api/maxmin?_vercel_no_cache=1', municipio.id], fetcher);
     return {
       plot_data: data,
       plot_loading: !error && !data,
@@ -73,7 +73,7 @@ export default function Home({ municipio }) {
   const { plot_data, plot_loading, plot_error } = maxmin();
 
   function current() {
-    const { data, error } = useSWR(['/api/current', municipio.id], fetcher_toast);
+    const { data, error } = useSWR(['/api/current?_vercel_no_cache=1', municipio.id], fetcher_toast);
     return {
       current_data: data,
       current_loading: !error && !data,
@@ -96,6 +96,26 @@ export default function Home({ municipio }) {
     },
   };
 
+
+  const AVISO_CALOR = () => {
+    if (current_loading) {
+      return null;
+    } else if (current_error) {
+      return null;
+    } else {
+      if (current_data['temperatura']['#text'] >= 30) {
+        return (<>
+          <Alert status="warning">
+            <AlertIcon />Aviso amarillo por temperaturas. Ten cuidado.</Alert>
+          <Divider />
+        </>
+        )
+      } else {
+        return null;
+      }
+    }
+  }
+
   const AVISO_TORMENTA = () => {
     if (current_loading) {
       return null;
@@ -105,7 +125,7 @@ export default function Home({ municipio }) {
       if (current_data['prob_tormenta']['#text'] > 0) {
         return (<>
           <Alert status="warning">
-            <AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {prb_tormenta}%</Alert>
+            <AlertIcon />Hay aviso de tormenta. Ten cuidado. Actualmente un {current_data['prob_tormenta']['#text']}%</Alert>
           <Divider />
         </>
         )
@@ -375,6 +395,7 @@ export default function Home({ municipio }) {
       <meta name="twitter:description" content={`Tiempo en ${_.capitalize(municipio.name)}, España previsión actualizada del tiempo. Temperaturas, probabilidad de lluvias - AEMET clean clone`} />
     </Head>
     <Flex h="100%" className={styles.flex_apply} backgroundColor={variableState ? "#1A202C" : "F7FAFC"} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
+      <AVISO_CALOR />
       <AVISO_TORMENTA />
       <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Heading>
       <Divider />

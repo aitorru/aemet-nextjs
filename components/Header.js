@@ -9,6 +9,10 @@ import {
     InputGroup,
     InputRightAddon,
     useToast,
+    Portal,
+    Grid,
+    Box,
+    GridItem
 } from "@chakra-ui/react"
 import {
     SearchIcon,
@@ -17,7 +21,7 @@ import {
 } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import municipios from '../public/municipios/aemetdata.json'
 import { useAppContext } from '../contexts/AppContext';
 var _ = require('lodash');
@@ -30,6 +34,7 @@ export default function Header() {
     const [value, setValue] = useState("");
     const handleChange = (event) => setValue(event.target.value);
     const toast = useToast();
+    const barra = useRef();
 
 
     const handleKeyPress = (event) => {
@@ -56,10 +61,11 @@ export default function Header() {
             <Flex minH="8vh" className={styles.flex_apply} flexDirection="row" justifyContent="space-between" alignItems="center" alignContent="center" padding="0px 16px" >
                 <Menu>
                     <Link href="/" passHref><Text margin="1" paddingLeft="26" paddingRight="26" fontSize={{ base: "xs", md: "md", lg: "xl" }} textAlign="center" as={Button} variant="link" className={styles.nav_title}>Aemet clean clone</Text></Link>
-                    <InputGroup justifyContent="center">
+                    <InputGroup justifyContent="center" ref={barra}>
                         <Input className={styles.nav_search} value={value} onKeyPress={(e) => { handleKeyPress(e) }} onChange={handleChange} placeholder="Busca un municipio" colorScheme="facebook" />
                         <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); handleMunicipioSearch() }} />
                     </InputGroup>
+
                     <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { setVariableState(!variableState) }}>
                         {variableState ? <MoonIcon /> : <SunIcon />}
                     </MenuButton>
