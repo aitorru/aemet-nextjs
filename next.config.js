@@ -12,4 +12,7 @@ module.exports = {
     future: {
         webpack5: true,
     },
+    env: {
+        TZ: 'Europe/Madrid',
+    },
 }
