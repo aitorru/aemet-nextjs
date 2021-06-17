@@ -2,6 +2,7 @@
 const axios = require('axios');
 var parser = require('fast-xml-parser');
 var he = require('he');
+const { utcToZonedTime } = require('date-fns-tz')
 
 var options = {
     attributeNamePrefix: "@_",
@@ -25,19 +26,25 @@ var options = {
 export default async function handler(req, res) {
     await axios.get(`http://www.aemet.es/xml/municipios_h/localidad_h_${req.headers.municipio}.xml`).then(function (response) {
         const jsonObj = parser.parse(response.data, options);
+
+        // Obtain a Date instance that will render the equivalent Berlin time for the UTC date
+        const d = new Date();
+        const timeZone = 'Europe/Berlin'; // Same as Madrid
+        const zonedDate = utcToZonedTime(d, timeZone);
+
         // Prepare date format
-        const year = new Date().getFullYear().toString();
+        const year = zonedDate.getFullYear().toString();
         var month = null;
-        if ((new Date().getMonth() + 1) <= 9) {
-            month = `0${new Date().getMonth() + 1}`
+        if ((zonedDate.getMonth() + 1) <= 9) {
+            month = `0${zonedDate.getMonth() + 1}`
         } else {
-            month = `${new Date().getMonth() + 1}`
+            month = `${zonedDate.getMonth() + 1}`
         }
         var day = null;
-        if (new Date().getDate() <= 9) {
-            day = `0${new Date().getDate().toString()}`
+        if (zonedDate.getDate() <= 9) {
+            day = `0${zonedDate.getDate().toString()}`
         } else {
-            day = `${new Date().getDate().toString()}`
+            day = `${zonedDate.getDate().toString()}`
         }
 
 
@@ -54,7 +61,7 @@ export default async function handler(req, res) {
         const estado_cielo = today['estado_cielo'];
         var cielo = estado_cielo[0];
         for (var i in estado_cielo) {
-            if (new Date().getHours() == estado_cielo[i]['attr']['@_periodo']) {
+            if (zonedDate.getHours() == estado_cielo[i]['attr']['@_periodo']) {
                 cielo = estado_cielo[i];
             }
         }
@@ -62,14 +69,14 @@ export default async function handler(req, res) {
         const precipitacion_dia = today['precipitacion'];
         var precipitacion = precipitacion_dia[0];
         for (var i in precipitacion_dia) {
-            if (new Date().getHours() == precipitacion_dia[i]['attr']['@_periodo']) {
+            if (zonedDate.getHours() == precipitacion_dia[i]['attr']['@_periodo']) {
                 precipitacion = precipitacion_dia[i];
             }
         }
 
         const prob_precipitacion_dia = today['prob_precipitacion'];
         // Obtener el rango actual
-        const rango = new Date().getHours().toString() + new Date().getMinutes().toString()
+        const rango = zonedDate.getHours().toString() + zonedDate.getMinutes().toString()
         var prob_precipitacion = prob_precipitacion_dia[0];
         for (var i in prob_precipitacion_dia) {
             // AEMET da las pobabilidades en rangos.
@@ -92,7 +99,7 @@ export default async function handler(req, res) {
         const nieve_dia = today['nieve'];
         var nieve = nieve_dia[0];
         for (var i in nieve_dia) {
-            if (new Date().getHours() == nieve_dia[i]['attr']['@_periodo']) {
+            if (zonedDate.getHours() == nieve_dia[i]['attr']['@_periodo']) {
                 nieve = nieve_dia[i];
             }
         }
@@ -110,7 +117,7 @@ export default async function handler(req, res) {
         const temperatura_dia = today['temperatura'];
         var temperatura = temperatura_dia[0];
         for (var i in temperatura_dia) {
-            if (new Date().getHours() == temperatura_dia[i]['attr']['@_periodo']) {
+            if (zonedDate.getHours() == temperatura_dia[i]['attr']['@_periodo']) {
                 temperatura = temperatura_dia[i];
             }
         }
@@ -118,7 +125,7 @@ export default async function handler(req, res) {
         const sens_termica_dia = today['sens_termica'];
         var sens_termica = sens_termica_dia[0];
         for (var i in sens_termica_dia) {
-            if (new Date().getHours() == sens_termica_dia[i]['attr']['@_periodo']) {
+            if (zonedDate.getHours() == sens_termica_dia[i]['attr']['@_periodo']) {
                 sens_termica = sens_termica_dia[i];
             }
         }
@@ -129,7 +136,7 @@ export default async function handler(req, res) {
         var found_periodo = false;
         for (var i in temperatura_dia) {
             if (!found_periodo) {
-                if (new Date().getHours() == temperatura_dia[i]['attr']['@_periodo']) {
+                if (zonedDate.getHours() == temperatura_dia[i]['attr']['@_periodo']) {
                     temperatura_stat_dia_periodos.push(temperatura_dia[i]['attr']['@_periodo']);
 
                     found_periodo = true;
@@ -148,7 +155,7 @@ export default async function handler(req, res) {
         var found_temperatura = false;
         for (var i in temperatura_dia) {
             if (!found_temperatura) {
-                if (new Date().getHours() == temperatura_dia[i]['attr']['@_periodo']) {
+                if (zonedDate.getHours() == temperatura_dia[i]['attr']['@_periodo']) {
                     temperatura_stat_dia.push(temperatura_dia[i]['#text']);
                     found_temperatura = true;
                 }
@@ -180,7 +187,7 @@ export default async function handler(req, res) {
         var found_precipitacion = false;
         for (var i in precipitacion_dia) {
             if (!found_precipitacion) {
-                if (new Date().getHours() == precipitacion_dia[i]['attr']['@_periodo']) {
+                if (zonedDate.getHours() == precipitacion_dia[i]['attr']['@_periodo']) {
                     precipitacion_stat_dia.push(precipitacion_dia[i]['#text']);
                     found_precipitacion = true;
                 }

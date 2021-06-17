@@ -2,12 +2,14 @@
 const axios = require('axios');
 var parser = require('fast-xml-parser');
 var he = require('he');
+const _ = require('lodash');
+const { utcToZonedTime } = require('date-fns-tz')
 
 var options = {
     attributeNamePrefix: "@_",
     attrNodeName: "attr", //default is 'false'
     textNodeName: "#text",
-    ignoreAttributes: true,
+    ignoreAttributes: false,
     ignoreNameSpace: false,
     allowBooleanAttributes: false,
     parseNodeValue: true,
@@ -26,23 +28,69 @@ export default async function handler(req, res) {
     await axios.get(`http://www.aemet.es/xml/municipios/localidad_${req.headers.municipio}.xml`).then(function (response) {
         const jsonObj = parser.parse(response.data, options);
 
-        const today = jsonObj['root']['prediccion']['dia'];
+        // Obtain a Date instance that will render the equivalent Berlin time for the UTC date
+        const d = new Date();
+        const timeZone = 'Europe/Berlin'; // Same as Madrid
+        const zonedDate = utcToZonedTime(d, timeZone);
+
+        const days = jsonObj['root']['prediccion']['dia'];
 
         var tmax = [];
         var tmin = [];
 
-        for (var i in today) {
-            tmax.push(today[i]['temperatura']['maxima']);
-            tmin.push(today[i]['temperatura']['minima']);
+        for (var i in days) {
+            tmax.push(days[i]['temperatura']['maxima']);
+            tmin.push(days[i]['temperatura']['minima']);
         }
 
+        // Prepare date format
+        const year = zonedDate.getFullYear().toString();
+        var month = null;
+        if ((zonedDate.getMonth() + 1) <= 9) {
+            month = `0${zonedDate.getMonth() + 1}`
+        } else {
+            month = `${zonedDate.getMonth() + 1}`
+        }
+        var day = null;
+        if (zonedDate.getDate() <= 9) {
+            day = `0${zonedDate.getDate().toString()}`
+        } else {
+            day = `${zonedDate.getDate().toString()}`
+        }
+
+        var tormenta_labels = [];
+        var tormenta_stats = [];
+        var found_today = false;
+        var index_first_loop = 0;
+        var index_second_loop = 0;
+        _.forEach(days, (dia) => {
+            if (dia['attr']['@_fecha'] == `${year}-${month}-${day}`) {
+                found_today = true;
+            }
+            if (found_today && typeof (dia['prob_precipitacion']) !== "number") {
+                console.log(dia['prob_precipitacion'])
+                if (dia['prob_precipitacion'].lenght === 7) {
+                    if (dia['attr']['@_fecha'] == `${year}-${month}-${day}`) {
+                        const horas = dia['prob_precipitacion'].slice(3);
+                        // Obtener el rango del periodo
 
 
-        var d = new Date();
+                    }
+                }
+
+                _.forEach(dia['prob_precipitacion'], (precipitaciones) => {
+                    if (index_first_loop == 0) {
+
+                    }
+                    index_second_loop++;
+                })
+            }
+            index_first_loop++;
+        })
 
 
         const maxmin = {
-            labels: ['Dia: ' + (d.getDate()), 'Dia: ' + (d.getDate() + 1), 'Dia: ' + (d.getDate() + 3), 'Dia: ' + (d.getDate() + 4), 'Dia: ' + (d.getDate() + 5), 'Dia: ' + (d.getDate() + 6)],
+            labels: ['Dia: ' + (zonedDate.getDate()), 'Dia: ' + (zonedDate.getDate() + 1), 'Dia: ' + (zonedDate.getDate() + 3), 'Dia: ' + (zonedDate.getDate() + 4), 'Dia: ' + (zonedDate.getDate() + 5), 'Dia: ' + (zonedDate.getDate() + 6)],
             datasets: [
                 {
                     label: 'Temperatura maxima',

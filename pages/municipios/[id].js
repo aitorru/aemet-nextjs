@@ -13,11 +13,7 @@ import {
   GridItem,
   Divider,
   useToast,
-  Heading,
-  Fade,
-  ScaleFade,
-  Slide,
-  SlideFade
+  Heading
 } from "@chakra-ui/react"
 import {
 } from '@chakra-ui/icons'
@@ -41,7 +37,7 @@ var _ = require('lodash');
 export default function Home({ municipio }) {
   const toast_actualizado = useToast();
 
-  const { variableState, setVariableState } = useAppContext();
+  const { variableState } = useAppContext();
 
   const fetcher_toast = (url, token) =>
     axios

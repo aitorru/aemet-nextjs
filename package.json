@@ -17,6 +17,8 @@
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
     "chart.js": "^3.3.2",
+    "date-fns": "^2.22.1",
+    "date-fns-tz": "^1.1.4",
     "fast-xml-parser": "^3.19.0",
     "framer-motion": "^4",
     "he": "^1.2.0",
