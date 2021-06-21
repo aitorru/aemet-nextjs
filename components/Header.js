@@ -9,10 +9,6 @@ import {
     InputGroup,
     InputRightAddon,
     useToast,
-    Portal,
-    Grid,
-    Box,
-    GridItem
 } from "@chakra-ui/react"
 import {
     SearchIcon,
@@ -24,8 +20,6 @@ import { useRouter } from 'next/router'
 import { useState, useRef } from 'react';
 import municipios from '../public/municipios/aemetdata.json'
 import { useAppContext } from '../contexts/AppContext';
-var _ = require('lodash');
-
 
 export default function Header() {
 
@@ -43,7 +37,8 @@ export default function Header() {
         }
     }
 
-    const handleMunicipioSearch = () => {
+    const handleMunicipioSearch = async () => {
+        const _ = (await import('lodash')).default
         var url = _.find(municipios,
             (o) => {
                 return (_.lowerCase(o.name) == _.lowerCase(value) || _.lowerCase(o.name.split(' ')[_.findIndex(o.name.split(' '), (d) => { _.lowerCase(d) == _.lowerCase(value) })]) == _.lowerCase(value))
@@ -63,10 +58,9 @@ export default function Header() {
                     <Link href="/" passHref><Text margin="1" paddingLeft="26" paddingRight="26" fontSize={{ base: "xs", md: "md", lg: "xl" }} textAlign="center" as={Button} variant="link" className={styles.nav_title}>Aemet clean clone</Text></Link>
                     <InputGroup justifyContent="center" ref={barra}>
                         <Input className={styles.nav_search} value={value} onKeyPress={(e) => { handleKeyPress(e) }} onChange={handleChange} placeholder="Busca un municipio" colorScheme="facebook" />
-                        <InputRightAddon children={<SearchIcon />} as={Button} onClick={(e) => { e.preventDefault(); handleMunicipioSearch() }} />
+                        <InputRightAddon children={<SearchIcon />} as={Button} aria-label="Buscar" onClick={(e) => { e.preventDefault(); handleMunicipioSearch() }} />
                     </InputGroup>
-
-                    <MenuButton className={styles.nav_button} as={Button} margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { setVariableState(!variableState) }}>
+                    <MenuButton className={styles.nav_button} as={Button} aria-label="Modo noche" margin="1" paddingLeft="-10" paddingRight="-10" onClick={() => { setVariableState(!variableState) }}>
                         {variableState ? <MoonIcon /> : <SunIcon />}
                     </MenuButton>
                 </Menu>

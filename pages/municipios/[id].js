@@ -28,7 +28,6 @@ import Nube from '../../public/weather/001-cloud.svg'
 import Termometro from '../../public/weather/043-warm.svg'
 import Paragüas from '../../public/weather/048-umbrella.svg'
 import Gota from '../../public/weather/028-drop.svg'
-import { useState } from 'react'
 import municipios from '../../public/municipios/aemetdata.json'
 import { useAppContext } from '../../contexts/AppContext';
 import axios from 'axios'
