@@ -175,6 +175,7 @@ export default async function handler(req, res) {
                     fill: false,
                     backgroundColor: 'rgb(255, 0, 55)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0.4,
                 }
             ],
             borderWidth: 1,

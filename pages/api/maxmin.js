@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         }
 
         // Prepare date format
-        const year = zonedDate.getFullYear().toString();
+        /* const year = zonedDate.getFullYear().toString();
         var month = null;
         if ((zonedDate.getMonth() + 1) <= 9) {
             month = `0${zonedDate.getMonth() + 1}`
@@ -56,9 +56,9 @@ export default async function handler(req, res) {
             day = `0${zonedDate.getDate().toString()}`
         } else {
             day = `${zonedDate.getDate().toString()}`
-        }
+        } */
 
-        var tormenta_labels = [];
+        /* var tormenta_labels = [];
         var tormenta_stats = [];
         var found_today = false;
         var index_first_loop = 0;
@@ -68,7 +68,6 @@ export default async function handler(req, res) {
                 found_today = true;
             }
             if (found_today && typeof (dia['prob_precipitacion']) !== "number") {
-                console.log(dia['prob_precipitacion'])
                 if (dia['prob_precipitacion'].lenght === 7) {
                     if (dia['attr']['@_fecha'] == `${year}-${month}-${day}`) {
                         const horas = dia['prob_precipitacion'].slice(3);
@@ -86,7 +85,7 @@ export default async function handler(req, res) {
                 })
             }
             index_first_loop++;
-        })
+        }) */
 
 
         const maxmin = {
@@ -98,6 +97,7 @@ export default async function handler(req, res) {
                     fill: false,
                     backgroundColor: 'rgb(255, 0, 55)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0.4,
                 },
                 {
                     label: 'Temperatura minima',
@@ -105,6 +105,7 @@ export default async function handler(req, res) {
                     fill: false,
                     backgroundColor: 'rgb(57, 54, 248)',
                     borderColor: 'rgba(131, 129, 209, 0.2)',
+                    tension: 0.4,
                 }
             ],
         }

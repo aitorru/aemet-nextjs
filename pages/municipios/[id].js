@@ -54,9 +54,6 @@ export default function Home({ municipio }) {
       .get(url, { headers: { municipio: token } })
       .then((res) => res.data)
 
-  const [tormenta, setTormenta] = useState(false);
-  const [prb_tormenta, setPrb_tormenta] = useState(0);
-
   function maxmin() {
     const { data, error } = useSWR(['/api/maxmin?_vercel_no_cache=1', municipio.id], fetcher);
     return {
