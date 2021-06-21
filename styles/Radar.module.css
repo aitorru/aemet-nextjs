@@ -1,0 +1,11 @@
+.radar {
+    animation-name: blink;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+    0% {fill: var(--chakra-colors-red-500)}
+    50% {fill: #e53e3e00}
+    100% {fill: var(--chakra-colors-red-500)}
+  }

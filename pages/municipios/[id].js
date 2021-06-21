@@ -13,7 +13,8 @@ import {
   GridItem,
   Divider,
   useToast,
-  Heading
+  Heading,
+  Spinner
 } from "@chakra-ui/react"
 import {
 } from '@chakra-ui/icons'
@@ -31,6 +32,14 @@ import Gota from '../../public/weather/028-drop.svg'
 import municipios from '../../public/municipios/aemetdata.json'
 import { useAppContext } from '../../contexts/AppContext';
 import axios from 'axios'
+import dynamic from 'next/dynamic'
+const RadarButton = dynamic(
+  () => import('../../components/RadarButton'),
+  {
+    loading: () => <Spinner />,
+    ssr: false,
+  }
+)
 var _ = require('lodash');
 
 export default function Home({ municipio }) {
@@ -389,7 +398,10 @@ export default function Home({ municipio }) {
     <Flex h="100%" className={styles.flex_apply} backgroundColor={variableState ? "#1A202C" : "F7FAFC"} flexDirection="column" justifyContent="center" alignContent="center" alignItems="center">
       <AVISO_CALOR />
       <AVISO_TORMENTA />
-      <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}</Heading>
+      <Heading textAlign="center" color={variableState ? "white" : "black"} fontSize="6xl">
+        Datos de {_.capitalize(municipio.name)} - {new Date().getDate().toString()}/{new Date().getMonth() + 1}/{new Date().getFullYear().toString()}
+      </Heading>
+      <RadarButton />
       <Divider />
       <SUMMARY />
       <Divider />
