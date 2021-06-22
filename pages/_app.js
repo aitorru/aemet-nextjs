@@ -19,12 +19,12 @@ function MyApp({ Component, pageProps }) {
             fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
           }}>
             <NextNprogress
-              color="#29D"
-              startPosition={0.3}
-              stopDelayMs={200}
-              height={3}
+              color="#5fa2d7"
+              startPosition={0.5}
+              stopDelayMs={100}
+              height={2}
               showOnShallow={true}
-              options={{ showSpinner: false }}
+              options={{ showSpinner: false, easing: 'ease', speed: 500 }}
             />
             <Header />
             <Component {...pageProps} />
