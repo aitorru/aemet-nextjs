@@ -16,7 +16,6 @@ const PrettyIndexWithCustomLoading = dynamic(
   () => import('../components/PrettyIndex'),
   {
     loading: () => <Spinner />,
-    ssr: false,
   }
 )
 

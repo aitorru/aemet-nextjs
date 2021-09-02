@@ -37,7 +37,6 @@ const RadarButton = dynamic(
   () => import('../../components/RadarButton'),
   {
     loading: () => <Spinner />,
-    ssr: false,
   }
 )
 var _ = require('lodash');
@@ -163,10 +162,10 @@ export default function Home({ municipio }) {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              No se pudo obtener los datos de AEMET
+              No se pudo obtener los datos de AEMET.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.
+              Nuestros servidores están teniendo problemas. Inténtelo más tarde.😔
             </AlertDescription>
           </Alert>
         </Box>
@@ -234,10 +233,10 @@ export default function Home({ municipio }) {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              No se pudo obtener los datos de AEMET
+              No se pudo obtener los datos de AEMET.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+              Nuestros servidores están teniendo problemas. Inténtelo más tarde.😔
             </AlertDescription>
           </Alert>
         </Box>
@@ -275,10 +274,10 @@ export default function Home({ municipio }) {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              No se pudo obtener los datos de AEMET
+              No se pudo obtener los datos de AEMET.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+              Nuestros servidores están teniendo problemas. Inténtelo más tarde.😔
             </AlertDescription>
           </Alert>
         </Box>
@@ -317,10 +316,10 @@ export default function Home({ municipio }) {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              No se pudo obtener los datos de AEMET
+              No se pudo obtener los datos de AEMET.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+              Nuestros servidores están teniendo problemas. Inténtelo más tarde.😔
             </AlertDescription>
           </Alert>
         </Box>
@@ -360,10 +359,10 @@ export default function Home({ municipio }) {
           >
             <AlertIcon boxSize="40px" mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              No se pudo obtener los datos de AEMET
+              No se pudo obtener los datos de AEMET.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Nuestros servidores estan teniendo problemas. Intentelo mas tarde.😔
+              Nuestros servidores están teniendo problemas. Inténtelo más tarde.😔
             </AlertDescription>
           </Alert>
         </Box>
@@ -405,15 +404,15 @@ export default function Home({ municipio }) {
       <Divider />
       <SUMMARY />
       <Divider />
-      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones del dia</Text>
-      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Temperatura del dia</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones del día</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Temperatura del día</Text>
       <PLOT_TEMP_DAY />
       <Divider />
-      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Precipitaciones del dia</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Precipitaciones del día</Text>
       <PLOT_PREP_DAY />
       <Divider />
-      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones de 7 dias</Text>
-      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Maxmimas y minimas</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="4xl">Predicciones de 7 días</Text>
+      <Text textAlign="center" color={variableState ? "white" : "black"} fontSize="2xl">Máximas y mínimas</Text>
       <PLOT_MAX_MIN />
     </Flex>
   </>

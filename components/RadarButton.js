@@ -47,9 +47,9 @@ export default function RadarButton() {
         <Text>
             <Popover>
                 <PopoverTrigger>
-                    <Badge marginTop="1rem" marginBottom="1rem" h="1.5rem" ml="1" fontSize="0.8em" colorScheme="red" as={Button}>
+                    <Badge h="1.5rem" ml="1" fontSize="0.8em" colorScheme="red" as={Button}>
                         Radar de lluvia
-                        <Icon margin="2px" marginBottom="5px" viewBox="0 0 200 200" color="red.500">
+                        <Icon viewBox="0 0 200 200" color="red.500">
                             <path
                                 fill="currentColor"
                                 d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"

@@ -20,11 +20,11 @@ function MyApp({ Component, pageProps }) {
           }}>
             <NextNprogress
               color="#5fa2d7"
-              startPosition={0.5}
+              startPosition={0.7}
               stopDelayMs={100}
               height={2}
               showOnShallow={true}
-              options={{ showSpinner: false, easing: 'ease', speed: 500 }}
+              options={{ showSpinner: false, easing: 'ease', speed: 200 }}
             />
             <Header />
             <Component {...pageProps} />
